@@ -8,20 +8,20 @@ module.exports            = {
         try{
             let user = await User.findOne({email:req.body.email})
             if(user){
-                    res.status(409).send({message:"User with given email already exist"})
+                    res.status(409).json({message:"User with given email already exist"})
             }else{
                 if(req.body.password !== req.body.confirmPassword){
-                    res.status(400).send({message:"Password Does Not Match"})
+                    res.status(400).json({message:"Password Does Not Match"})
                 }else{
                     user = new User(req.body)
                     await user.save()
                 }
-                res.status(200).send(user)
+                res.status(200).json(user)
             }
 
         }
         catch(err){
-            res.status(400).send(err.message)
+            res.status(400).json(err.message)
         }
     },
 /////////////////////////////////////////////////////////////////// login
@@ -29,10 +29,10 @@ module.exports            = {
         try{
             const user  = await validations.login(req.body.email,req.body.password)
                 const token = user.generateToken();
-                res.status(200).send({user,token})
+                res.status(200).json({user,token})
         }
         catch(err){
-            res.status(400).send({"message":err.message})
+            res.status(400).json({"message":err.message})
         }
     },
 //////////////////////////////////////////////////////////////// update

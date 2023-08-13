@@ -8,10 +8,10 @@ module.exports            = {
         try{
             let user = await User.findOne({email:req.body.email})
             if(user){
-                    res.status(409).json({message:"User with given email already exist"})
+                  return  res.status(409).json({message:"User with given email already exist"})
             }else{
                 if(req.body.password !== req.body.confirmPassword){
-                    res.status(400).json({message:"Password Does Not Match"})
+                   return res.status(400).json({message:"Password Does Not Match"})
                 }else{
                     user = new User(req.body)
                     await user.save()
